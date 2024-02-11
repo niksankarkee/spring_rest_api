@@ -1,12 +1,11 @@
 package com.niksan.rest.webservices.restfulwebservices.user;
 
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,13 @@ public class UserResource {
         return user;
     }
 
+    @DeleteMapping("users/{userId}")
+    public void deleteUser(@PathVariable int userId){
+        service.deleteById(userId);
+    }
+
     @PostMapping("users")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         User savedUser = service.save(user);
         URI location =
                 ServletUriComponentsBuilder
